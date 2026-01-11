@@ -33,16 +33,27 @@ col1.dataframe(pd.DataFrame(X, columns=[f"f{i+1}" for i in range(8)]))
 col2.metric("Injury Risk", f"{risk:.1%}")
 st.markdown("🟢 SAFE" if risk < 0.6 else "🔴 HIGH RISK")
 
-st.header("🚨 High-Risk Frames")
+st.header("🚨 High-Risk Frames Gallery")
+st.info(f"📁 data/frames/ contents:")
 try:
+    import os
+    frames = os.listdir("data/frames")
+    st.write(f"Found {len(frames)} files: {frames[:3]}...")
+    
     df = pd.read_csv("data/frame_index.csv")
     cols = st.columns(3)
-    for i, row in df.head(9).iterrows():
-        fn = f"data/frames/{int(row.track_id):06d}.jpg"
-        with cols[i%3]:
-            st.image(fn, width=260, caption=f"Track {row.track_id}")
-except:
-    st.info("📸 10 frames uploaded")
+    for i, row in df.head(6).iterrows():
+        frame_name = f"{int(row.track_id):06d}.jpg"
+        frame_path = f"data/frames/{frame_name}"
+        with cols[i % 3]:
+            st.subheader(f"Track {row.track_id}")
+            if os.path.exists(frame_path):
+                st.image(frame_path, width=280, caption=f"knee_asym: {row.knee_asym:.2f}")
+            else:
+                st.error(f"❌ {frame_name} missing")
+except Exception as e:
+    st.error(f"Error: {e}")
+
 
 st.header("📊 Dataset")
 try:
