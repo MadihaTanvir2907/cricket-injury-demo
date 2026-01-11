@@ -7,7 +7,7 @@ import plotly.express as px
 
 st.set_page_config(layout="wide", page_title="Cricket Injury Detection")
 st.title("🏏 Multi-Person Cricket Injury Detection")
-st.markdown("*Master's Thesis - Porto Cricket AI 2026*")
+st.markdown("*Master's Thesis - Linnaeus University 2026*")
 
 @st.cache_resource
 def load_model():
